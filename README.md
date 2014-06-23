@@ -4,6 +4,8 @@ A Ruby library for sending yo's from [Yo](http://justyo.co).
 
 [github.com/jackjennings/hey](http://github.com/jackjennings/hey)
 
+[![Gem Version](https://badge.fury.io/rb/hey.svg)](http://badge.fury.io/rb/hey)
+
 # Installation
 
 ```
