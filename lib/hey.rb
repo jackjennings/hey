@@ -3,7 +3,7 @@ require 'hey/yo'
 
 module Hey
   
-  class NoAPITokenError < StandardError; end
+  class MissingAPITokenError < StandardError; end
   
   def self.api_token= value
     @api_token = value
