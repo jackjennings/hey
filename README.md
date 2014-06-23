@@ -14,13 +14,11 @@ gem install hey
 
 ```ruby
 Hey.api_token = '3858f62230ac3c915f300c664312c63f'
-yo = Hey::Yo.new
-yo.all
+Hey::Yo.all
 
-# or set api_token on the Yo instance
+# or set api_token on a Yo instance
 
-yo = Hey::Yo.new('3858f62230ac3c915f300c664312c63f')
-yo.all
+Hey::Yo.new(api_token: '3858f62230ac3c915f300c664312c63f').all
 ```
 
 That's it!
