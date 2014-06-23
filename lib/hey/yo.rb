@@ -13,5 +13,9 @@ module Hey
       Net::HTTP.post_form uri, api_token: api_token
     end
     
+    def self.all
+      new.all
+    end
+    
   end
 end

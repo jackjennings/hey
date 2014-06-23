@@ -3,6 +3,10 @@ require 'hey/yo'
 
 class YoTest < Minitest::Test
   
+  def teardown
+    Hey.api_token = nil
+  end
+  
   def test_sets_api_token_on_instance
     yo = Hey::Yo.new(api_token: 'foo')
     assert_equal 'foo', yo.api_token
@@ -16,10 +20,12 @@ class YoTest < Minitest::Test
   
   def test_all_sends_api_request
     yo = Hey::Yo.new(api_token: 'foo')
-    mock = MiniTest::Mock.new
-    mock.expect(:post_form, nil, [URI, Hash])
-    Net.stub_const(:HTTP, mock) {yo.all}
-    assert mock.verify
+    assert_sends_yo {yo.all}
+  end
+  
+  def test_class_method_all_sends_api_request
+    Hey.api_token = 'foo'
+    assert_sends_yo {Hey::Yo.all}
   end
   
   def test_raises_no_api_token_error
@@ -28,6 +34,13 @@ class YoTest < Minitest::Test
     assert_raises(Hey::NoAPITokenError) do
       yo.all
     end
+  end
+  
+  def assert_sends_yo(&block)
+    mock = MiniTest::Mock.new
+    mock.expect(:post_form, nil, [URI, Hash])
+    Net.stub_const(:HTTP, mock, &block)
+    assert mock.verify
   end
   
 end
