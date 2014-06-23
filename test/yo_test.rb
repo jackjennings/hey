@@ -1,7 +1,5 @@
 require 'test_helper'
 require 'hey/yo'
-require 'minitest/mock'
-require 'minitest/stub_const'
 
 class YoTest < Minitest::Test
   
