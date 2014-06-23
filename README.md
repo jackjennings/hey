@@ -2,7 +2,7 @@
 
 A Ruby library for sending yo's from [Yo](http://justyo.co).
 
-github.com/jackjennings/hey
+[github.com/jackjennings/hey](http://github.com/jackjennings/hey)
 
 # Installation
 
