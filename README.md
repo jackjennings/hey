@@ -12,6 +12,10 @@ gem install hey
 
 # Usage
 
+First [get an API token](http://yoapi.justyo.co).
+
+Then:
+
 ```ruby
 Hey.api_token = '3858f62230ac3c915f300c664312c63f'
 Hey::Yo.all
