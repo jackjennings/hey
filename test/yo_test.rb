@@ -31,7 +31,7 @@ class YoTest < Minitest::Test
   def test_raises_no_api_token_error
     Hey.api_token = nil
     yo = Hey::Yo.new
-    assert_raises(Hey::NoAPITokenError) do
+    assert_raises(Hey::MissingAPITokenError) do
       yo.all
     end
   end
