@@ -37,10 +37,13 @@ class YoTest < Minitest::Test
   end
   
   def assert_sends_yo(&block)
-    mock = MiniTest::Mock.new
-    mock.expect(:post_form, nil, [URI, Hash])
-    Net.stub_const(:HTTP, mock, &block)
-    assert mock.verify
+    mock_response = Net::HTTPResponse.new('1.1', '201', 'CREATED')
+    mock_response.stub(:read_body, "{\"code\": 201}") do
+      mock = MiniTest::Mock.new
+      mock.expect(:post_form, mock_response, [URI, Hash])
+      Net.stub_const(:HTTP, mock, &block)
+      assert mock.verify
+    end
   end
   
 end
