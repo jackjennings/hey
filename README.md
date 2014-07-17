@@ -22,9 +22,14 @@ Then:
 Hey.api_token = '3858f62230ac3c915f300c664312c63f'
 Hey::Yo.all
 
-# or set api_token on a Yo instance
+# or set api_token on a Yo instance:
 
 Hey::Yo.new(api_token: '3858f62230ac3c915f300c664312c63f').all
+
+# or Yo a specific user:
+
+Hey::Yo.user "WORLDCUP" # or...
+Hey::Yo.new(api_token: '3858f62230ac3c915f300c664312c63f').user "WORLDCUP"
 ```
 
 That's it!

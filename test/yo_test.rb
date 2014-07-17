@@ -28,6 +28,16 @@ class YoTest < Minitest::Test
     assert_sends_yo {Hey::Yo.all}
   end
   
+  def test_user_sends_api_request
+    yo = Hey::Yo.new(api_token: 'foo')
+    assert_sends_yo {yo.user('YOJOBS')}
+  end
+  
+  def test_class_method_user_sends_api_request
+    Hey.api_token = 'foo'
+    assert_sends_yo {Hey::Yo.user('YOJOBS')}
+  end
+  
   def test_raises_no_api_token_error
     Hey.api_token = nil
     yo = Hey::Yo.new
