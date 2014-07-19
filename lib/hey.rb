@@ -1,6 +1,5 @@
-require 'net/http'
-require 'json'
 require 'hey/yo'
+require 'hey/subscriber'
 
 module Hey
   

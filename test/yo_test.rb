@@ -4,38 +4,38 @@ require 'hey/yo'
 class YoTest < Minitest::Test
   
   def teardown
+    WebMock.reset!
     Hey.api_token = nil
   end
   
-  def test_sets_api_token_on_instance
-    yo = Hey::Yo.new(api_token: 'foo')
-    assert_equal 'foo', yo.api_token
-  end
-  
-  def test_defaults_to_hey_api_token
-    Hey.api_token = 'bar'
-    yo = Hey::Yo.new
-    assert_equal 'bar', yo.api_token
-  end
-  
   def test_all_sends_api_request
-    yo = Hey::Yo.new(api_token: 'foo')
-    assert_sends_yo {yo.all}
+    stub_post = stub_request(:post, "http://api.justyo.co/yoall/")
+      .with(:body => {"api_token"=>"foo"})
+    Hey::Yo.new(api_token: 'foo').all
+    assert_requested stub_post
   end
   
   def test_class_method_all_sends_api_request
+    stub_post = stub_request(:post, "http://api.justyo.co/yoall/")
+      .with(:body => {"api_token"=>"foo"})
     Hey.api_token = 'foo'
-    assert_sends_yo {Hey::Yo.all}
+    Hey::Yo.all
+    assert_requested stub_post
   end
   
   def test_user_sends_api_request
-    yo = Hey::Yo.new(api_token: 'foo')
-    assert_sends_yo {yo.user('YOJOBS')}
+    stub_post = stub_request(:post, "http://api.justyo.co/yo/")
+      .with(:body => {"api_token"=>"foo", "username"=>"YOJOBS"})
+    Hey::Yo.new(api_token: 'foo').user('YOJOBS')
+    assert_requested stub_post
   end
   
   def test_class_method_user_sends_api_request
+    stub_post = stub_request(:post, "http://api.justyo.co/yo/")
+      .with(:body => {"api_token"=>"foo", "username"=>"YOJOBS"})
     Hey.api_token = 'foo'
-    assert_sends_yo {Hey::Yo.user('YOJOBS')}
+    Hey::Yo.user('YOJOBS')
+    assert_requested stub_post
   end
   
   def test_raises_no_api_token_error
@@ -46,14 +46,11 @@ class YoTest < Minitest::Test
     end
   end
   
-  def assert_sends_yo(&block)
-    mock_response = Net::HTTPResponse.new('1.1', '201', 'CREATED')
-    mock_response.stub(:read_body, "{\"code\": 201}") do
-      mock = MiniTest::Mock.new
-      mock.expect(:post_form, mock_response, [URI, Hash])
-      Net.stub_const(:HTTP, mock, &block)
-      assert mock.verify
-    end
+  def test_subscribers_returns_subscriber
+    yo = Hey::Yo.new api_token: 'foo'
+    subscriber = yo.subscribers
+    assert subscriber.is_a?(Hey::Subscriber)
+    assert_equal subscriber.api_token, yo.api_token
   end
   
 end

@@ -1,0 +1,24 @@
+require 'hey/dispatcher'
+
+module Hey
+  # Sends requests to the Yo API subscriber endpoint.
+  class Subscriber < Dispatcher
+    
+    # Sends a request to the +subscribers_count+ endpoint.
+    # Raises a +MissingAPITokenError+ error if an API token
+    # hasn't been set on the Hey module or Yo instance.
+    def count
+      raise_for_missing_api_token!
+      response = get 'subscribers_count'
+      body = get_response_body response
+      body['count']
+    end
+    
+    # Sends a request to the +subscribers_count+ endpoint using the
+    # API token set on the Hey module.
+    def self.count
+      new.count
+    end
+    
+  end
+end
