@@ -52,5 +52,22 @@ class YoTest < Minitest::Test
     assert subscriber.is_a?(Hey::Subscriber)
     assert_equal subscriber.api_token, yo.api_token
   end
+
+  def test_sends_link_to_all
+    stub_post = stub_request(:post, "http://api.justyo.co/yoall/")
+      .with(:body => {"api_token"=>"foo", "link"=>"http://example.com"})
+    Hey.api_token = 'foo'
+    Hey::Yo.all link: "http://example.com"
+    assert_requested stub_post
+  end
+
+  def test_sends_link_to_user
+    stub_post = stub_request(:post, "http://api.justyo.co/yo/")
+      .with(:body => {"api_token"=>"foo", "link"=>"http://example.com",
+        "username"=>"YOJOBS"})
+    Hey.api_token = 'foo'
+    Hey::Yo.user "YOJOBS", link: "http://example.com"
+    assert_requested stub_post
+  end
   
 end

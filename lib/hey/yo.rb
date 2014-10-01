@@ -8,19 +8,25 @@ module Hey
     # Sends a request to the +yoall+ endpoint.
     # Raises a +MissingAPITokenError+ error if an API token
     # hasn't been set on the Hey module or Yo instance.
-    def all
+    # Accepts an optional hash of additional parameters to
+    # send with the request.
+    def all params = {}
       raise_for_missing_api_token!
-      post 'yoall'
+      post 'yoall', params
     end
     
     # Sends a request to a user using the +yo+ endpoint.
     # Raises a +MissingAPITokenError+ error if an API token
     # hasn't been set on the Hey module or Yo instance.
+    # Accepts an optional hash of additional parameters to
+    # send with the request.
     #
     #  Hey::Yo.new.user "worldcup"
-    def user name
+    #  Hey::Yo.new.user "worldcup", link: "http://example.com"
+    def user name, params = {}
       raise_for_missing_api_token!
-      post 'yo', username: name
+      params.merge! username: name
+      post 'yo', params
     end
     
     # Accesses subscriber endpoints using the same API key
@@ -34,8 +40,8 @@ module Hey
     
     # Sends a request to the +yoall+ endpoint using the
     # API token set on the Hey module.
-    def self.all
-      new.all
+    def self.all *args
+      new.all *args
     end
     
     # Sends a request to a user using the +yo+ endpoint.
@@ -43,8 +49,9 @@ module Hey
     # hasn't been set on the Hey module.
     #
     #  Hey::Yo.user "worldcup"
-    def self.user name
-      new.user name
+    #  Hey::Yo.user "worldcup", link: "http://example.com"
+    def self.user *args
+      new.user *args
     end
     
   end

@@ -19,14 +19,18 @@ First [get an API token](http://yoapi.justyo.co).
 Then:
 
 ```ruby
-Hey.api_token = '3858f62230ac3c915f300c664312c63f'
+Hey.api_token = "3858f62230ac3c915f300c664312c63f"
 Hey::Yo.all # or yo a specific user...
 Hey::Yo.user "WORLDCUP"
 Hey::Subscriber.count
 
+# Additional parameters can be sent to Yo endpoints.
+Hey::Yo.all link: "http://justyo.co"
+Hey::Yo.user "WORLDCUP", link: "http://justyo.co"
+
 # or set api_token on a Yo instance:
 
-yo = Hey::Yo.new api_token: '3858f62230ac3c915f300c664312c63f'
+yo = Hey::Yo.new api_token: "3858f62230ac3c915f300c664312c63f"
 yo.all
 yo.user "WORLDCUP"
 yo.subscribers.count
