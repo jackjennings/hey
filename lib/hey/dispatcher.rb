@@ -1,5 +1,4 @@
-require 'json'
-require 'net/http'
+require 'hey/request'
 
 module Hey
   class Dispatcher
@@ -13,45 +12,38 @@ module Hey
     # 
     #  Hey::Yo.new api_token: '3858f62230ac3c915f300c664312c63f'
     def initialize options = {}
-      @api_token = options[:api_token] || Hey.api_token
+      @api_token = options[:api_token]
+    end
+    
+    # Returns the API token to be used when making requests. This will either
+    # be the api_token set on initialization or the token set on the Hey
+    # module itself.
+    def api_token
+      @api_token || Hey.api_token
     end
     
     private
     
-    def uri route, data = nil #:nodoc:
-      URI("http://api.justyo.co/#{route}/#{data}")
-    end
-    
     def get route #:nodoc:
-      response = Net::HTTP.get_response uri(route, "?api_token=#{api_token}")
-      raise_for_invalid_code! response
-      response
+      request :get, route
     end
     
     def post route, params = {} #:nodoc:
-      params = params.merge api_token: api_token
-      response = Net::HTTP.post_form uri(route), params
-      raise_for_invalid_code! response
-      response
+      request :post, route, params
+    end
+    
+    def request method, route, params = {} #:nodoc:
+      merge_api_token! params
+      Request.of_type(method).new route, params
+    end
+    
+    def merge_api_token! params #:nodoc:
+      raise_for_missing_api_token!
+      params.merge! api_token: api_token
     end
     
     def raise_for_missing_api_token! #:nodoc:
       raise MissingAPITokenError unless api_token
-    end
-    
-    def raise_for_invalid_code! response #:nodoc:
-      body = get_response_body(response)
-      return unless body && body["code"] == 141
-      case body["error"]
-      when "NO SUCH USER"
-        raise NoSuchUserError 
-      else
-        raise InvalidAPITokenError
-      end
-    end
-    
-    def get_response_body request #:nodoc:
-      request && request.body ? JSON.parse(request.body) : nil
     end
     
   end

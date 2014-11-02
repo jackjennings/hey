@@ -8,10 +8,8 @@ module Hey
     # Raises a +MissingAPITokenError+ error if an API token
     # hasn't been set on the Hey module or Yo instance.
     def count
-      raise_for_missing_api_token!
-      response = get 'subscribers_count'
-      body = get_response_body response
-      body['count']
+      request = get 'subscribers_count'
+      request.json['count']
     end
     
     # Sends a request to the +subscribers_count+ endpoint using the

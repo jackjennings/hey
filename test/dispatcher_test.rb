@@ -4,7 +4,6 @@ require 'hey/dispatcher'
 class DispatcherTest < Minitest::Test
   
   def teardown
-    WebMock.reset!
     Hey.api_token = nil
   end
   
@@ -19,19 +18,25 @@ class DispatcherTest < Minitest::Test
     assert_equal 'bar', dispatcher.api_token
   end
   
-  def test_get_request
-    stub_get = stub_request(:get, "http://api.justyo.co/bar/?api_token=foo")
-    dispatcher = Hey::Dispatcher.new api_token: 'foo'
-    dispatcher.send :get, 'bar'
-    assert_requested stub_get
+  def test_raises_for_absent_api_token
+    assert_raises Hey::MissingAPITokenError do
+      dispatcher = Hey::Dispatcher.new
+      dispatcher.merge_api_token! {}
+    end
   end
   
-  def test_post_request
-    stub_post = stub_request(:post, "http://api.justyo.co/bar/")
-      .with(:body => {"api_token"=>"foo"})
+  def test_merges_api_token
     dispatcher = Hey::Dispatcher.new api_token: 'foo'
-    dispatcher.send :post, 'bar'
-    assert_requested stub_post
+    params = {}
+    dispatcher.send(:merge_api_token!, params)
+    assert 'foo', params[:api_token]
+  end
+  
+  def test_raises_for_absent_api_token
+    assert_raises Hey::MissingAPITokenError do
+      dispatcher = Hey::Dispatcher.new
+      dispatcher.send(:merge_api_token!, {})
+    end
   end
   
 end

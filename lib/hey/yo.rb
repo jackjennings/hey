@@ -11,7 +11,6 @@ module Hey
     # Accepts an optional hash of additional parameters to
     # send with the request.
     def all params = {}
-      raise_for_missing_api_token!
       post 'yoall', params
     end
     
@@ -24,7 +23,6 @@ module Hey
     #  Hey::Yo.new.user "worldcup"
     #  Hey::Yo.new.user "worldcup", link: "http://example.com"
     def user name, params = {}
-      raise_for_missing_api_token!
       params.merge! username: name
       post 'yo', params
     end
