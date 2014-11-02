@@ -16,23 +16,62 @@ gem install hey
 
 First [get an API token](http://yoapi.justyo.co).
 
-Then:
+There are two ways of setting you API token, depending on your requirements. If your program is only working with a single API token, you can set it in an initializer or at the start of your script.
 
 ```ruby
 Hey.api_token = "3858f62230ac3c915f300c664312c63f"
-Hey::Yo.all # or yo a specific user...
-Hey::Yo.user "WORLDCUP"
-Hey::Subscriber.count
+```
 
-# Additional parameters can be sent to Yo endpoints.
-Hey::Yo.all link: "http://justyo.co"
-Hey::Yo.user "WORLDCUP", link: "http://justyo.co"
+If you need to use multiple API tokens, any `hey` class will accept an `api_token` on initialization.
 
-# or set api_token on a Yo instance:
+```ruby
+Hey::Yo.new api_token: "3858f62230ac3c915f300c664312c63f" 
+```
 
-yo = Hey::Yo.new api_token: "3858f62230ac3c915f300c664312c63f"
+An API token set when initializing an object takes precidence over the API token set on the `Hey` module.
+
+## Yo All
+
+Sends a yo to all of the account's subscribers.
+
+```ruby
+Hey::Yo.all
+# or
+yo = Hey::Yo.new api_token: "..."
 yo.all
+```
+
+Accepts either `link` or `location` in a hash of parameters (optional).
+
+```ruby
+Hey::Yo.all link: "https://github.com/jackjennings/hey"
+```
+
+## Yo User
+
+Sends a yo to a specific user.
+
+```ruby
+Hey::Yo.user "WORLDCUP"
+# or
+yo = Hey::Yo.new api_token: "..."
 yo.user "WORLDCUP"
+```
+
+Accepts either `link` or `location` in a hash of parameters (optional).
+
+```ruby
+Hey::Yo.user "WORLDCUP" link: "https://github.com/jackjennings/hey"
+```
+
+## Subscriber Count
+
+Returns the number of subscribers.
+
+```ruby
+Hey::Subscriber.count
+# or
+yo = Hey::Yo.new api_token: "3858f62230ac3c915f300c664312c63f"
 yo.subscribers.count
 ```
 
