@@ -1,5 +1,6 @@
 require 'hey/dispatcher'
 require 'hey/subscriber'
+require 'hey/account'
 
 module Hey
   # Sends requests to the Yo API yo endpoints.
@@ -30,10 +31,19 @@ module Hey
     # Accesses subscriber endpoints using the same API key
     #
     #  yo = Hey::Yo.new api_token: '3858f62230ac3c915f300c664312c63f'
-    #  yo.subscribers.count
-    #  # => 2
+    #  yo.subscribers
+    #  # => Hey::Subscriber
     def subscribers
       Hey::Subscriber.new api_token: api_token
+    end
+    
+    # Accesses accounts endpoints using the same API key
+    #
+    #  yo = Hey::Yo.new api_token: '3858f62230ac3c915f300c664312c63f'
+    #  yo.accounts
+    #  # => Hey::Account
+    def accounts
+      Hey::Account.new api_token: api_token
     end
     
     # Sends a request to the +yoall+ endpoint using the

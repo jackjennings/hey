@@ -16,7 +16,7 @@ gem install hey
 
 First [get an API token](http://yoapi.justyo.co).
 
-There are two ways of setting you API token, depending on your requirements. If your program is only working with a single API token, you can set it in an initializer or at the start of your script.
+There are two ways of setting your API token and interacting with the library, depending on the requirements of you program. If you only need to work with a single API token, you can set it in an initializer or at the start of your script. If you set the API token this way, you can ineteract with either the class methods or the instance methods described below.
 
 ```ruby
 Hey.api_token = "3858f62230ac3c915f300c664312c63f"
@@ -25,7 +25,7 @@ Hey.api_token = "3858f62230ac3c915f300c664312c63f"
 If you need to use multiple API tokens, any `hey` class will accept an `api_token` on initialization.
 
 ```ruby
-Hey::Yo.new api_token: "3858f62230ac3c915f300c664312c63f" 
+Hey::Yo.new api_token: "3858f62230ac3c915f300c664312c63f"
 ```
 
 An API token set when initializing an object takes precidence over the API token set on the `Hey` module.
@@ -74,5 +74,16 @@ Hey::Subscriber.count
 yo = Hey::Yo.new api_token: "3858f62230ac3c915f300c664312c63f"
 yo.subscribers.count
 ```
+
+## Create Account
+
+Creates a new Yo account.
+
+```
+Hey::Account.create "MYAPIACCOUNT", "********"
+# or
+yo = Hey::Yo.new api_token: "..."
+yo.accounts.create "MYAPIACCOUNT", "********"
+````
 
 That's it!

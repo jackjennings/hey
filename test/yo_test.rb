@@ -53,6 +53,13 @@ class YoTest < Minitest::Test
     assert_equal subscriber.api_token, yo.api_token
   end
 
+  def test_acounts_returns_account
+    yo = Hey::Yo.new api_token: 'foo'
+    account = yo.accounts
+    assert account.is_a?(Hey::Account)
+    assert_equal account.api_token, yo.api_token
+  end
+
   def test_sends_link_to_all
     stub_post = stub_request(:post, "http://api.justyo.co/yoall/")
       .with(:body => {"api_token"=>"foo", "link"=>"http://example.com"})

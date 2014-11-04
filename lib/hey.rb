@@ -1,5 +1,6 @@
 require 'hey/yo'
 require 'hey/subscriber'
+require 'hey/account'
 
 module Hey
   
