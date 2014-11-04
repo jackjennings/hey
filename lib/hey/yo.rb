@@ -22,7 +22,7 @@ module Hey
     # send with the request.
     #
     #  Hey::Yo.new.user "worldcup"
-    #  Hey::Yo.new.user "worldcup", link: "http://example.com"
+    #  Hey::Yo.new.user "worldcup", link: "https://example.com"
     def user name, params = {}
       params.merge! username: name
       post 'yo', params
@@ -57,7 +57,7 @@ module Hey
     # hasn't been set on the Hey module.
     #
     #  Hey::Yo.user "worldcup"
-    #  Hey::Yo.user "worldcup", link: "http://example.com"
+    #  Hey::Yo.user "worldcup", link: "https://example.com"
     def self.user *args
       new.user *args
     end

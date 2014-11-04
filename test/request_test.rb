@@ -9,25 +9,25 @@ class RequestTest < Minitest::Test
   end
   
   def test_get_request
-    stub_get = stub_request(:get, "http://api.justyo.co/bar/")
+    stub_get = stub_request(:get, "https://api.justyo.co/bar/")
     request = Hey::Request::Get.new 'bar'
     assert_requested stub_get
   end
   
   def test_get_request_with_params
-    stub_get = stub_request(:get, "http://api.justyo.co/bar/?foo=baz")
+    stub_get = stub_request(:get, "https://api.justyo.co/bar/?foo=baz")
     request = Hey::Request::Get.new 'bar', foo: 'baz'
     assert_requested stub_get
   end
   
   def test_post_request
-    stub_post = stub_request(:post, "http://api.justyo.co/bar/")
+    stub_post = stub_request(:post, "https://api.justyo.co/bar/")
     dispatcher = Hey::Request::Post.new 'bar'
     assert_requested stub_post
   end
   
   def test_post_request_with_params
-    stub_post = stub_request(:post, "http://api.justyo.co/bar/")
+    stub_post = stub_request(:post, "https://api.justyo.co/bar/")
       .with(:body => {"foo"=>"baz"})
     dispatcher = Hey::Request::Post.new 'bar', foo: 'baz'
     assert_requested stub_post

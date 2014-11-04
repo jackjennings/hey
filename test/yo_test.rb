@@ -9,14 +9,14 @@ class YoTest < Minitest::Test
   end
   
   def test_all_sends_api_request
-    stub_post = stub_request(:post, "http://api.justyo.co/yoall/")
+    stub_post = stub_request(:post, "https://api.justyo.co/yoall/")
       .with(:body => {"api_token"=>"foo"})
     Hey::Yo.new(api_token: 'foo').all
     assert_requested stub_post
   end
   
   def test_class_method_all_sends_api_request
-    stub_post = stub_request(:post, "http://api.justyo.co/yoall/")
+    stub_post = stub_request(:post, "https://api.justyo.co/yoall/")
       .with(:body => {"api_token"=>"foo"})
     Hey.api_token = 'foo'
     Hey::Yo.all
@@ -24,14 +24,14 @@ class YoTest < Minitest::Test
   end
   
   def test_user_sends_api_request
-    stub_post = stub_request(:post, "http://api.justyo.co/yo/")
+    stub_post = stub_request(:post, "https://api.justyo.co/yo/")
       .with(:body => {"api_token"=>"foo", "username"=>"YOJOBS"})
     Hey::Yo.new(api_token: 'foo').user('YOJOBS')
     assert_requested stub_post
   end
   
   def test_class_method_user_sends_api_request
-    stub_post = stub_request(:post, "http://api.justyo.co/yo/")
+    stub_post = stub_request(:post, "https://api.justyo.co/yo/")
       .with(:body => {"api_token"=>"foo", "username"=>"YOJOBS"})
     Hey.api_token = 'foo'
     Hey::Yo.user('YOJOBS')
@@ -61,19 +61,19 @@ class YoTest < Minitest::Test
   end
 
   def test_sends_link_to_all
-    stub_post = stub_request(:post, "http://api.justyo.co/yoall/")
-      .with(:body => {"api_token"=>"foo", "link"=>"http://example.com"})
+    stub_post = stub_request(:post, "https://api.justyo.co/yoall/")
+      .with(:body => {"api_token"=>"foo", "link"=>"https://example.com"})
     Hey.api_token = 'foo'
-    Hey::Yo.all link: "http://example.com"
+    Hey::Yo.all link: "https://example.com"
     assert_requested stub_post
   end
 
   def test_sends_link_to_user
-    stub_post = stub_request(:post, "http://api.justyo.co/yo/")
-      .with(:body => {"api_token"=>"foo", "link"=>"http://example.com",
+    stub_post = stub_request(:post, "https://api.justyo.co/yo/")
+      .with(:body => {"api_token"=>"foo", "link"=>"https://example.com",
         "username"=>"YOJOBS"})
     Hey.api_token = 'foo'
-    Hey::Yo.user "YOJOBS", link: "http://example.com"
+    Hey::Yo.user "YOJOBS", link: "https://example.com"
     assert_requested stub_post
   end
   

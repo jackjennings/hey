@@ -1,3 +1,4 @@
+require 'net/https'
 require 'hey/request/base'
 
 module Hey
@@ -5,7 +6,12 @@ module Hey
     class Post < Base
       
       def send_request route, params
-        Net::HTTP.post_form uri(route), params
+        location = uri(route)
+        Net::HTTP.start(location.host, location.port, use_ssl: true) do |http|
+          request = Net::HTTP::Post.new location.request_uri
+          request.form_data = params
+          response = http.request request
+        end
       end
       
     end

@@ -8,7 +8,7 @@ class AccountTest < Minitest::Test
   end
   
   def test_create_sends_api_request
-    stub_get = stub_request(:post, "http://api.justyo.co/accounts/")
+    stub_get = stub_request(:post, "https://api.justyo.co/accounts/")
       .with(:body => {
         "api_token"=>"foo",
         "new_account_username"=>"foo",
@@ -21,7 +21,7 @@ class AccountTest < Minitest::Test
   end
 
   def test_create_sends_api_request_with_params
-    stub_get = stub_request(:post, "http://api.justyo.co/accounts/")
+    stub_get = stub_request(:post, "https://api.justyo.co/accounts/")
       .with(:body => {
         "api_token"=>"foo",
         "new_account_username"=>"foo",
