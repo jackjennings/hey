@@ -32,18 +32,18 @@ module Hey
     #
     #  yo = Hey::Yo.new api_token: '3858f62230ac3c915f300c664312c63f'
     #  yo.subscribers
-    #  # => Hey::Subscriber
+    #  # => #<Hey::Subscriber @api_token='3858f62230ac3c915f300c664312c63f'>
     def subscribers
-      Hey::Subscriber.new api_token: api_token
+      dispatch Hey::Subscriber
     end
     
     # Accesses accounts endpoints using the same API key
     #
     #  yo = Hey::Yo.new api_token: '3858f62230ac3c915f300c664312c63f'
     #  yo.accounts
-    #  # => Hey::Account
+    #  # => #<Hey::Account @api_token='3858f62230ac3c915f300c664312c63f'>
     def accounts
-      Hey::Account.new api_token: api_token
+      dispatch Hey::Account
     end
     
     # Sends a request to the +yoall+ endpoint using the

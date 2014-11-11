@@ -46,5 +46,9 @@ module Hey
       raise MissingAPITokenError unless api_token
     end
     
+    def dispatch klass
+      klass.new api_token: api_token
+    end
+    
   end
 end
